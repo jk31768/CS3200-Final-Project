@@ -6,7 +6,11 @@ const Navbar = () => {
         <nav className="navbar">
             <h1>Nutrition Tracker</h1>
             <div className="links">
-                <a href="/">Home</a>
+                <a href="/home">Home</a>
+                
+                <a href="/favorites">
+                    Favorites
+                </a>
                 <a href="/signup" style={{
                     color:"white",
                     backgroundColor: "#35ccfa",
