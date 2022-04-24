@@ -7,7 +7,7 @@ const User = function(user) {
   this.sex = user.sex;
   this.age = user.age;
   this.goal_weight = user.goal_weight;
-  this.activity_level_fk = user.activity_level_fk;
+  this.activity_level_id = user.activity_level_id;
 }
 
 User.insert = (newUser, result) => {

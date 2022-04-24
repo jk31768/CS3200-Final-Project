@@ -3,5 +3,4 @@ module.exports = {
     USER: "root",
     PASSWORD: "",
     DB: "Nutrition_Tracker",
-    PORT: 3306
   };
