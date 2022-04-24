@@ -33,7 +33,7 @@ app.use(
             };
 
 
-    connection.query("INSERT INTO User (height,weight,sex,age, goal_weight, activity_level) set ? ",data,function(err, rows) {
+    connection.query("INSERT INTO User (height,weight,sex,age, goal_weight, activity_level_fk) set ? ",data,function(err, rows) {
 
       if (err){
         //If error

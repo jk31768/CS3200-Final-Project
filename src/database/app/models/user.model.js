@@ -3,11 +3,11 @@ const sql = require("./db.js");
 const User = function(user) {
   this.username = user.username;
   this.height = user.height;
-  this.wieght = user.wieght;
+  this.weight = user.weight;
   this.sex = user.sex;
   this.age = user.age;
   this.goal_weight = user.goal_weight;
-  this.activity_level = user.activity_level;
+  this.activity_level_fk = user.activity_level_fk;
 }
 
 User.insert = (newUser, result) => {

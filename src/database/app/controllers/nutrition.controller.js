@@ -10,11 +10,11 @@ exports.insert = (req, res) => {
     const user = new User({
       username: req.body.username,
       height: req.body.height,
-      wieght: req.body.wieght,
+      weight: req.body.weight,
       sex: req.body.sex,
       age: req.body.age,
       goal_weight: req.body.goal_weight,
-      activity_level: req.body.activity_level
+      activity_level_fk: req.body.activity_level_fk
     });
     // Save user in the database
     User.insert(user, (err, data) => {
