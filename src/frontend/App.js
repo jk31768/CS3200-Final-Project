@@ -6,6 +6,7 @@ import Favorites from './Favorites';
 import Startpage from './Startpage';
 
 function App() {
+  
   return (
     <Router>
       <div className="App">
