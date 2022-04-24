@@ -1,49 +1,31 @@
-const Tutorial = require("../models/user.model.js");
+const User = require("../models/user.model.js");
 // Create and Save a new Tutorial
-exports.create = (req, res) => {
+exports.insert = (req, res) => {
     // Validate request
     if (!req.body) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
     }
-    // Create a Tutorial
-    const tutorial = new Tutorial({
-      title: req.body.title,
-      description: req.body.description,
-      published: req.body.published || false
+    const user = new User({
+      username: req.body.username,
+      height: req.body.height,
+      wieght: req.body.wieght,
+      sex: req.body.sex,
+      age: req.body.age,
+      goal_weight: req.body.goal_weight,
+      activity_level: req.body.activity_level
     });
-    // Save Tutorial in the database
-    Tutorial.create(tutorial, (err, data) => {
+    // Save user in the database
+    User.insert(user, (err, data) => {
       if (err)
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Tutorial."
+            err.message || "Some error occurred while inserting the user."
         });
       else res.send(data);
     });
   };
-// Retrieve all Tutorials from the database (with condition).
-exports.findAll = (req, res) => {
+
   
-};
-// Find a single Tutorial with a id
-exports.findOne = (req, res) => {
-  
-};
-// find all published Tutorials
-exports.findAllPublished = (req, res) => {
-  
-};
-// Update a Tutorial identified by the id in the request
-exports.update = (req, res) => {
-  
-};
-// Delete a Tutorial with the specified id in the request
-exports.delete = (req, res) => {
-  
-};
-// Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {
-  
-};
+

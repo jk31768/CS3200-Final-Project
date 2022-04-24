@@ -1,6 +1,7 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "password",
-    DB: "Local instance MySQL80"
+    PASSWORD: "",
+    DB: "Nutrition_Tracker",
+    PORT: 3306
   };
