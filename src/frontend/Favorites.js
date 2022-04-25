@@ -1,9 +1,10 @@
-
+import { useState } from "react";
 
 
 const Favorites = () => {
-    
-    const fav_list = ['Strawberry, Hamburger, Ramen, Gummy Bears'];
+    const [fav_list, setFavList] = useState("");
+    //const fav_list = ['Strawberry, Hamburger, Ramen, Gummy Bears'];
+
 
     return ( 
         <div className="favorites">

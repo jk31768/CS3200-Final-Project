@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import { useState } from 'react';
 
 
@@ -15,9 +14,6 @@ const CreateUser = () => {
 
 
     let handleCreateUser = () => {
-        console.log("handlecreateuser")
-        console.log(username)
-        console.log(activityLevel)
 
         const newUser = {
             username:username,
@@ -26,7 +22,7 @@ const CreateUser = () => {
             goal_weight: goal_weight, 
             age:age, 
             sex:gender,
-            activity_level_id:activityLevel,
+            activity_level_fk:activityLevel,
         }   
         fetch('http://localhost:8080/api/insert', {
             method: 'POST',

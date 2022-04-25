@@ -14,7 +14,7 @@ exports.insert = (req, res) => {
       sex: req.body.sex,
       age: req.body.age,
       goal_weight: req.body.goal_weight,
-      activity_level_id: req.body.activity_level_id
+      activity_level_fk: req.body.activity_level_fk
     });
     // Save user in the database
     User.insert(user, (err, data) => {
