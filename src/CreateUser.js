@@ -26,7 +26,7 @@ const CreateUser = () => {
             goal_weight: goal_weight, 
             age:age, 
             sex:gender,
-            activity_level_id:activityLevel,
+            activity_level_fk: 1,
         }   
         fetch('http://localhost:8080/api/insert', {
             method: 'POST',
