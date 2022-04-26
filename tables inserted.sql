@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `Nutrition_Tracker`.`User` (
   `username` VARCHAR(45) NOT NULL,
   `height` float NOT NULL,
   `weight` float NOT NULL,
-  `sex` VARCHAR(45) NOT NULL,
+  `sex` INT NOT NULL DEFAULT 0,
   `age` INT NOT NULL,
   `goal_weight` INT NOT NULL,
   `activity_level_fk` INT NOT NULL,
