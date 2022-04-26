@@ -28,4 +28,3 @@ exports.insert = (req, res) => {
   };
 
   
-
