@@ -251,6 +251,7 @@ GROUP BY Menu_item.name) as u)));
 
 }
 
+
 User.getIngredientsByID = (menu_item_id, result) =>{
   sql.query(`
   SELECT 

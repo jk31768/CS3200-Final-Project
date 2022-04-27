@@ -1,6 +1,6 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "",
+    PASSWORD: "Kronos0131!",
     DB: "nutrition_tracker",
   };
