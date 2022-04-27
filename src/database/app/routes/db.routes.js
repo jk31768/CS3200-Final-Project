@@ -5,6 +5,10 @@ module.exports = app => {
     router.post("/insertUser", user.insert);
     router.get("/selectUser/:id", user.select);
     router.post("/insertUserFavMenuItem", user.insertUserFavMenuItem);
+    router.post("/removeUserFavMenuItem", user.removeUserFavMenuItem);
     router.get("/getFavoriteMenuItems/:id", user.getFavoriteMenuItems);
+    router.get("/getMenuItems", user.getMenuItems);
+    router.get("/getIngredientsByID/:id", user.getIngredientsByID);
     app.use('/api',router);
   };
+  
