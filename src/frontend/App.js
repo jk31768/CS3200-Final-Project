@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router
 import CreateUser from './CreateUser';
 import Favorites from './Favorites';
 import Startpage from './Startpage';
-import MenuItems from './MenuItems'
+
 function App() {
   return (
     <Router>
@@ -20,9 +20,6 @@ function App() {
             </Route>
             <Route exact path="/signup"> 
               <CreateUser />
-            </Route>
-            <Route exact path="/menuitems"> 
-              <MenuItems />
             </Route>
             <Route exact path="/favorites"> 
               <Favorites />

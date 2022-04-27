@@ -15,7 +15,6 @@
   "author": "bezkoder",
   "license": "ISC",
   "dependencies": {
-    "chakra": "0.0.3",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "mysql": "^2.18.1"

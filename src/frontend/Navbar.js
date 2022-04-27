@@ -11,9 +11,6 @@ const Navbar = () => {
                 <a href="/favorites">
                     Favorites
                 </a>
-                <a href="/MenuItems">
-                    Menu Items
-                </a>
                 <a href="/signup" style={{
                     color:"white",
                     backgroundColor: "#35ccfa",
