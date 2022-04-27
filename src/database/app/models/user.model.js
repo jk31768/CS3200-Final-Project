@@ -142,9 +142,46 @@ FROM
         Menu_Item_Ingredients
     JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
     GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
-GROUP BY Menu_item.name;
+GROUP BY Menu_item.name, Menu_item.menu_item_id;
   
   `, 
+  (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      // console.log("got menu items: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+
+}
+
+User.getMenuItemsByRestaurant = (restaurant, result) =>{
+
+  sql.query(`
+
+  SELECT 
+    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id
+FROM
+    menu_item
+        JOIN
+    (SELECT 
+        menu_item_id,
+            ROUND(SUM(calories_per_serving * num_of_servings), 0) AS calories_per_menu_item
+    FROM
+        Menu_Item_Ingredients
+    JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+    GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
+    JOIN Restaurant ON  Menu_item.restaurant_id = restaurant.restaurant_id
+    WHERE restaurant.name like ?
+GROUP BY Menu_item.name, Menu_item.menu_item_id;
+  
+  `, [restaurant + '%'],
   (err, res) => {
     if (err) {
       console.log("error: ", err);
