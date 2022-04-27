@@ -23,8 +23,18 @@ const MenuItems = () => {
           )
       }, [])
         
-     function handleSearch () {
+     function handleRestaurantSearch () {
         fetch('http://localhost:8080/api/getMenuItemsByRestaurant/' + search_bar, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res =>  res.json()).then(body =>  {
+            console.log(body); 
+            setMenuList(body);
+        })
+    }
+
+    function handleItemSearch () {
+        fetch('http://localhost:8080/api/getMenuItemsByItem/' + search_bar, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }).then(res =>  res.json()).then(body =>  {
@@ -42,9 +52,10 @@ const MenuItems = () => {
             <div>
             <label> Search: <input type="text" onChange={(event)=>{
                         setSearchBar(event.target.value)}} /> </label>
-            <button onClick= {handleSearch}>Search</button>
+            <button onClick= {handleRestaurantSearch}>Search By Restaurant</button>
+            <button onClick= {handleItemSearch}>Search By Item</button>
             <UnorderedList spacing={5}>
-                 {menu_list.map((item, i) =>  <li key={i}><MenuItem name={item.name} calories= {item.calories} menu_item_id={item.menu_item_id}  /></li>)}
+                 {menu_list.map((item, i) =>  <li key={i}><MenuItem name={item.name} calories= {item.calories} menu_item_id={item.menu_item_id} rname={item.rname} /></li>)}
             </UnorderedList>
             </div>
         </div>

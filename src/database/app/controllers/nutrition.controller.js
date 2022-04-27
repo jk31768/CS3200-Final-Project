@@ -1,3 +1,4 @@
+const { DATETIME2 } = require("mysql/lib/protocol/constants/types");
 const User = require("../models/user.model.js");
 // Create and Save a new Tutorial
 exports.insert = (req, res) => {
@@ -108,7 +109,23 @@ exports.insert = (req, res) => {
     });
   };
 
+  exports.getMenuItemsByItem = (req, res) => {
+    User.getMenuItemsByItem(req.params.itemName, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find any menu item with given name ${req.body.itemName}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving menu item with name " + req.body.itemName
+          });
+        }
+      } else res.send(data);
+    });
+  }
 
+  
   exports.getRecommendedMenuItems = (req, res) => {
     User.getRecommendedMenuItems(req.params.id, (err, data) => {
       if (err) {
@@ -151,6 +168,51 @@ exports.insert = (req, res) => {
         } else {
           res.status(500).send({
             message: "Error retrieving menu items"
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+  exports.insertUserMeal = (req, res) => {
+    Date.prototype.yyyymmdd = function() {
+      var mm = this.getMonth() + 1; // getMonth() is zero-based
+      var dd = this.getDate();
+    
+      return [this.getFullYear(),
+              (mm>9 ? '' : '0') + mm,
+              (dd>9 ? '' : '0') + dd
+             ].join('-');
+    };
+    
+    var date = new Date();
+    date.yyyymmdd();
+    
+    User.insertUserMeal(req.body.user_id, req.body.menu_item_id, date, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `no found user with id ${req.body.user_id}. or menu item`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error inserting user's meal " + req.body.user_id
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+  exports.removeUserMeal = (req, res) => {
+    User.removeUserMeal(req.body.user_id,req.body.menu_item_id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `no found user with id ${req.body.user_id}. or menu item`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error removing user's meal " + req.body.user_id
           });
         }
       } else res.send(data);

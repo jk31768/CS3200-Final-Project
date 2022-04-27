@@ -98,40 +98,12 @@ User.getFavoriteMenuItems = (user_id, result) => {
 
 }
 
-User.insertEatenMeal = (user_id, meal_id, result) => {
-
-}
-
-User.getEatenAllEatenMeals = (user_id, result) => {
-
-}
-
-User.getEatenMealsOnDate = (user_id, date, result) => {
-  
-}
-
-User.getRecommendedMeal = (user_id, result) =>{
-
-}
-
-User.searchByMeal = (item, result) =>{
-
-}
-
-User.searchByResaturant =(name, result) => {
-
-}
-
-User.getAllRestaurant = (result) => {
-
-}
-
 User.getMenuItems = (result) =>{
 
   sql.query(`
 
   SELECT 
-    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id
+    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id,restaurant.name as rname
 FROM
     menu_item
         JOIN
@@ -142,9 +114,47 @@ FROM
         Menu_Item_Ingredients
     JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
     GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
+    JOIN Restaurant ON  Menu_item.restaurant_id = restaurant.restaurant_id
 GROUP BY Menu_item.name, Menu_item.menu_item_id;
   
   `, 
+  (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      // console.log("got menu items: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+
+}
+
+User.getMenuItemsByItem = (itemName, result) =>{
+
+  sql.query(`
+
+  SELECT 
+    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id,restaurant.name as rname
+FROM
+    menu_item
+        JOIN
+    (SELECT 
+        menu_item_id,
+            ROUND(SUM(calories_per_serving * num_of_servings), 0) AS calories_per_menu_item
+    FROM
+        Menu_Item_Ingredients
+    JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+    GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
+    JOIN Restaurant ON  Menu_item.restaurant_id = restaurant.restaurant_id
+    WHERE menu_item. name like ?
+GROUP BY Menu_item.name, Menu_item.menu_item_id;
+  
+  `,['%' + itemName + '%'], 
   (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -166,7 +176,7 @@ User.getMenuItemsByRestaurant = (restaurant, result) =>{
   sql.query(`
 
   SELECT 
-    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id
+    Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id, restaurant.name as rname
 FROM
     menu_item
         JOIN
@@ -179,7 +189,7 @@ FROM
     GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
     JOIN Restaurant ON  Menu_item.restaurant_id = restaurant.restaurant_id
     WHERE restaurant.name like ?
-GROUP BY Menu_item.name, Menu_item.menu_item_id;
+GROUP BY Menu_item.name, Menu_item.menu_item_id, restaurant.name;
   
   `, [restaurant + '%'],
   (err, res) => {
@@ -279,11 +289,32 @@ User.getIngredientsByID = (menu_item_id, result) =>{
 
 }
 
+User.insertUserMeal = (user_id, meal_id,date, result) => {
 
-// query restaurants
-// display meals
-// quey meals by calories
-// 
+  sql.query("INSERT INTO user_meal VALUES (?)",[[user_id,meal_id,date,1]], (err,res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("inserted user meal: ", { id: res.insertId, ...user_id });
+    result(null, { id: res.user_id, ...meal_id });
+  });
+
+}
+User.removeUserMeal = (user_id, meal_id, result) => {
+
+  sql.query('DELETE FROM user_meal WHERE user_id = ? and menu_item_id = ?', [user_id,meal_id], (err,res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("removed from user meal: ", { id: res.insertId, ...user_id });
+    result(null, { id: res.user_id, ...meal_id });
+  });
+
+}
 
 
 

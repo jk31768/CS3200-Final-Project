@@ -14,14 +14,15 @@ import { Text, StyleSheet } from "react-native";
 
 export default function MenuItem(props) {
     const [buttonText, setButtonText] = useState("Favorite"); //same as creating your state variable where "Next" is the default value for buttonText and setButtonText is the setter function for your state variable instead of setState
+    const [consumedButtonText, setConsumedButtonText] = useState("mark as consumed");
 
     const changeText = () => {
         const menu_item_user ={
             menu_item_id:props.menu_item_id,
-            user_id:2
+            user_id:2 // CHANGE if we get some sort of login 
         }
         if(buttonText === 'Favorite'){
-            setButtonText('Remove');
+            setButtonText('unfavorite');
             fetch('http://localhost:8080/api/insertUserFavMenuItem', {
                 method: 'POST',
                 body: JSON.stringify(menu_item_user),
@@ -41,6 +42,33 @@ export default function MenuItem(props) {
         
     }
 
+    const changeTextForConsumed = () => {
+      const menu_item_user ={
+          menu_item_id:props.menu_item_id,
+          user_id:2
+      }
+
+      if(consumedButtonText === 'mark as consumed'){
+        setConsumedButtonText('Remove from consumed');
+          fetch('http://localhost:8080/api/insertUserMeal', {
+              method: 'POST',
+              body: JSON.stringify(menu_item_user),
+              headers: { 'Content-Type': 'application/json' }
+          }).then(res => res.json())
+          .then(json => console.log(json));
+
+      } else {
+          fetch('http://localhost:8080/api/removeUserMeal', {
+              method: 'POST',
+              body: JSON.stringify(menu_item_user),
+              headers: { 'Content-Type': 'application/json' }
+          }).then(res => res.json())
+          .then(json => console.log(json));
+          setConsumedButtonText('mark as consumed');
+      }
+      
+  }
+
 
   
     return (
@@ -48,7 +76,10 @@ export default function MenuItem(props) {
         <text> {props.name}  </text>
         <text style={{fontWeight: "bold"}}> calories: {props.calories}</text>
         <Text>{`\n`}</Text>
+        <text> {props.rname}  </text>
+        <Text>{`\n`}</Text>
         <Button onClick={() => changeText()}>{buttonText}</Button>
+        <Button onClick={() => changeTextForConsumed()}>{consumedButtonText}</Button>
         <MoreInfoButton menu_item_id={props.menu_item_id} />      
 
     </Box>   
