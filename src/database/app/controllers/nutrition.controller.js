@@ -91,6 +91,24 @@ exports.insert = (req, res) => {
     });
   };
 
+
+  exports.getMenuItemsByRestaurant = (req, res) => {
+    User.getMenuItemsByRestaurant(req.body.restaurant, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find any restaurants with given name ${req.body.restaurant}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving restaurant with name " + req.body.restaurant
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+
   exports.getMenuItems = (req, res) => {
     User.getMenuItems( (err, data) => {
       if (err) {
