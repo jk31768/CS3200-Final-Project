@@ -12,8 +12,6 @@ button.cta {
   }
 
   li{
-    display:inline-block;
-    border:1px solid #35ccfa;
     padding:20px;
     align-items: left;
 }
