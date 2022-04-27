@@ -9,11 +9,16 @@ module.exports = app => {
     router.post("/insertUserMeal", user.insertUserMeal);
     router.post("/removeUserMeal", user.removeUserMeal);
     router.get("/getFavoriteMenuItems/:id", user.getFavoriteMenuItems);
+
+    router.get("/getEatenAllEatenMeals/:id", user.getEatenAllEatenMeals);
+    router.get("getEatenMealsOnDate", user.getEatenAllEatenMealsOnDate);
+
     router.get("/getMenuItems", user.getMenuItems);
     router.get("/getRecommendedMenuItems/:id", user.getRecommendedMenuItems);
     router.get("/getMenuItemsByRestaurant/:restaurant", user.getMenuItemsByRestaurant);
     router.get("/getIngredientsByID/:id", user.getIngredientsByID);
     router.get("/getMenuItemsByItem/:itemName", user.getMenuItemsByItem);
+
     app.use('/api',router);
   };
 

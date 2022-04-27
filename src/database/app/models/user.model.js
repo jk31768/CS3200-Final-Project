@@ -56,8 +56,8 @@ User.select = (user_id, result) => {
 }
 
 User.insertUserFavMenuItem = (user_id, meal_id, result) => {
-
   sql.query("INSERT INTO user_fav_menu_item VALUES (?)",[[meal_id,user_id]], (err,res) => {
+
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -100,9 +100,7 @@ User.getFavoriteMenuItems = (user_id, result) => {
 
 User.getMenuItems = (result) =>{
 
-  sql.query(`
-
-  SELECT 
+  sql.query(` SELECT 
     Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id,restaurant.name as rname
 FROM
     menu_item
@@ -131,7 +129,6 @@ GROUP BY Menu_item.name, Menu_item.menu_item_id;
     }
     result({ kind: "not_found" }, null);
   });
-
 }
 
 User.getMenuItemsByItem = (itemName, result) =>{
@@ -156,13 +153,16 @@ GROUP BY Menu_item.name, Menu_item.menu_item_id;
   
   `,['%' + itemName + '%'], 
   (err, res) => {
+
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
     if (res.length) {
+
       // console.log("got menu items: ", res);
+
       result(null, res);
       return;
     }

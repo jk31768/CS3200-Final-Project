@@ -93,6 +93,41 @@ exports.insert = (req, res) => {
   };
 
 
+exports.getEatenAllEatenMeals = (req, res) => {
+    User.getEatenAllEatenMeals(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find fav menu items ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+
+
+  exports.getEatenAllEatenMealsOnDate = (req, res) => {
+    User.getEatenAllEatenMealsOnDate(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find fav menu items ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+
   exports.getMenuItemsByRestaurant = (req, res) => {
     User.getMenuItemsByRestaurant(req.params.restaurant, (err, data) => {
       if (err) {
@@ -136,11 +171,13 @@ exports.insert = (req, res) => {
         } else {
           res.status(500).send({
             message: "Error retrieving recommended menu items"
+
           });
         }
       } else res.send(data);
     });
   };
+
 
   exports.getMenuItems = (req, res) => {
     User.getMenuItems( (err, data) => {
@@ -219,5 +256,3 @@ exports.insert = (req, res) => {
     });
   };
 
-  
-  
