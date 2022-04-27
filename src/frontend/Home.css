@@ -1,0 +1,22 @@
+h3 {
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+  }
+button.cta {
+    padding: 5px;
+    display: flex;
+    max-width: 85px;
+    margin: 0 auto;
+  }
+
+  li{
+    padding:20px;
+    align-items: left;
+}
+
+h3.calories {
+  font-size:300%;
+  color: #f02b1d;
+}

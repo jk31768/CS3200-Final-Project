@@ -22,9 +22,10 @@ const CreateUser = () => {
             goal_weight: goal_weight, 
             age:age, 
             sex:gender,
+
             activity_level_fk:activityLevel,
         }   
-        fetch('http://localhost:8080/api/insert', {
+        fetch('http://localhost:8080/api/insertUser', {
             method: 'POST',
             body: JSON.stringify(newUser),
             headers: { 'Content-Type': 'application/json' }
