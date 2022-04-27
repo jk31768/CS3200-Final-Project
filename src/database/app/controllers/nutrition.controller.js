@@ -109,6 +109,22 @@ exports.insert = (req, res) => {
   };
 
 
+  exports.getRecommendedMenuItems = (req, res) => {
+    User.getRecommendedMenuItems(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find recommended menu items.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving recommended menu items"
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
   exports.getMenuItems = (req, res) => {
     User.getMenuItems( (err, data) => {
       if (err) {

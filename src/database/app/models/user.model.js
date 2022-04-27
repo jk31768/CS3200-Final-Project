@@ -198,6 +198,60 @@ GROUP BY Menu_item.name, Menu_item.menu_item_id;
 
 }
 
+User.getRecommendedMenuItems = (user_id, result) =>{
+
+  sql.query(`
+
+  SELECT 
+  Menu_item.name, SUM(calories_per_menu_item) AS calories, Menu_item.menu_item_id
+FROM
+  menu_item
+      JOIN
+  (SELECT 
+      menu_item_id,
+          ROUND(SUM(calories_per_serving * num_of_servings), 0) AS calories_per_menu_item
+  FROM
+      Menu_Item_Ingredients
+  JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+  GROUP BY menu_item_id) AS t ON t.menu_item_id = menu_item.menu_item_id
+  JOIN Restaurant ON  Menu_item.restaurant_id = restaurant.restaurant_id
+GROUP BY Menu_item.name, Menu_item.menu_item_id
+HAVING calories < (select ((SELECT 
+  IF(sex = 1,
+      (66 + (6.3 * goal_weight) + (12.9 * height) - (6.8 * age)),
+      (655 + (4.3 * goal_weight) + (4.7 * height) - (4.7 * age))) as rec_calories
+  FROM
+  user 
+  WHERE 
+  user_id = ?)
+      - 
+      (SELECT sum(calories_per_meal) from (SELECT Menu_item.name, sum(num_servings * calories_per_menu_item) as calories_per_meal from User_Meal
+JOIN (SELECT menu_item_id, ROUND(SUM(calories_per_serving * num_of_servings), 0) as calories_per_menu_item FROM Menu_Item_Ingredients
+JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+GROUP BY menu_item_id) as t ON t.menu_item_id = User_Meal.menu_item_id
+JOIN Menu_item ON Menu_item.menu_item_id = User_Meal.menu_item_id
+WHERE user_id = ?
+GROUP BY Menu_item.name) as u)));
+
+  
+  `, [user_id, user_id],
+  (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      // console.log("got menu items: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
+
+}
+
+
 User.getIngredientsByID = (menu_item_id, result) =>{
   sql.query(`
   SELECT 

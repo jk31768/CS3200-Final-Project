@@ -8,6 +8,7 @@ module.exports = app => {
     router.post("/removeUserFavMenuItem", user.removeUserFavMenuItem);
     router.get("/getFavoriteMenuItems/:id", user.getFavoriteMenuItems);
     router.get("/getMenuItems", user.getMenuItems);
+    router.get("/getRecommendedMenuItems/:id", user.getRecommendedMenuItems);
     router.get("/getMenuItemsByRestaurant", user.getMenuItemsByRestaurant);
     router.get("/getIngredientsByID/:id", user.getIngredientsByID);
     app.use('/api',router);
