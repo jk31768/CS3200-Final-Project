@@ -93,7 +93,7 @@ exports.insert = (req, res) => {
 
 
   exports.getMenuItemsByRestaurant = (req, res) => {
-    User.getMenuItemsByRestaurant(req.body.restaurant, (err, data) => {
+    User.getMenuItemsByRestaurant(req.params.restaurant, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({

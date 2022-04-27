@@ -261,9 +261,9 @@ User.getIngredientsByID = (menu_item_id, result) =>{
         JOIN
     ingredient AS i USING (ingredient_id)
   WHERE
-    menu_item_id = 1
+    menu_item_id = ?
   
-  `, (err, res) => {
+  `, [menu_item_id], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

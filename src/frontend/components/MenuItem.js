@@ -58,15 +58,20 @@ export default function MenuItem(props) {
 
   function MoreInfoButton(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [ingredient_list, setIngredientList] = useState("");
+    const [ingredient_list, setIngredientList] = useState([]);
 
-    fetch('http://localhost:8080/api/getIngredientsByID/'+props.menu_item_id, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        }).then(res =>  res.json()).then(body =>  {
-            console.log(body); 
-            setIngredientList(body);
-        })
+    useEffect(() => {
+      fetch("http://localhost:8080/api/getIngredientsByID/"+ props.menu_item_id)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            setIngredientList(result);
+          },
+ 
+          (error) => {
+          }
+        )
+    }, [])
         if(ingredient_list){
     return (
       <>
