@@ -10,3 +10,15 @@ button.cta {
     max-width: 85px;
     margin: 0 auto;
   }
+
+  li{
+    display:inline-block;
+    border:1px solid #35ccfa;
+    padding:20px;
+    align-items: left;
+}
+
+h3.calories {
+  font-size:300%;
+  color: #f02b1d;
+}

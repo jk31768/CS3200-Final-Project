@@ -256,3 +256,19 @@ exports.getEatenAllEatenMeals = (req, res) => {
     });
   };
 
+
+  exports.getEatenMealsOnDate = (req, res) => {
+    User.getEatenMealsOnDate(req.params.id,req.params.date, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find fav menu items ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    });
+  };

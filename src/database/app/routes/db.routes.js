@@ -11,7 +11,7 @@ module.exports = app => {
     router.get("/getFavoriteMenuItems/:id", user.getFavoriteMenuItems);
 
     router.get("/getEatenAllEatenMeals/:id", user.getEatenAllEatenMeals);
-    router.get("getEatenMealsOnDate", user.getEatenAllEatenMealsOnDate);
+    router.get("/getEatenMealsOnDate/:id/:date", user.getEatenMealsOnDate);
 
     router.get("/getMenuItems", user.getMenuItems);
     router.get("/getRecommendedMenuItems/:id", user.getRecommendedMenuItems);

@@ -98,6 +98,8 @@ User.getFavoriteMenuItems = (user_id, result) => {
 
 }
 
+
+
 User.getMenuItems = (result) =>{
 
   sql.query(` SELECT 
@@ -312,6 +314,32 @@ User.removeUserMeal = (user_id, meal_id, result) => {
     }
     console.log("removed from user meal: ", { id: res.insertId, ...user_id });
     result(null, { id: res.user_id, ...meal_id });
+  });
+
+}
+
+
+User.getEatenMealsOnDate = (user_id,date, result) => {
+  sql.query(`SELECT Menu_item.name, sum(num_servings * calories_per_menu_item) as calories_per_meal from User_Meal
+  JOIN (SELECT menu_item_id, ROUND(SUM(calories_per_serving * num_of_servings), 0) as calories_per_menu_item FROM Menu_Item_Ingredients
+  JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+  GROUP BY menu_item_id) as t ON t.menu_item_id = User_Meal.menu_item_id
+  JOIN Menu_item ON Menu_item.menu_item_id = User_Meal.menu_item_id
+  WHERE user_id = ?
+  AND date = ?
+  GROUP BY Menu_item.name;`
+  ,[user_id,date], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("found users menu items: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
   });
 
 }
