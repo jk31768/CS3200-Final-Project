@@ -19,7 +19,7 @@ export default function MenuItem(props) {
     const changeText = () => {
         const menu_item_user ={
             menu_item_id:props.menu_item_id,
-            user_id:2 // CHANGE if we get some sort of login 
+            user_id:1 // CHANGE if we get some sort of login 
         }
         if(buttonText === 'Favorite'){
             setButtonText('unfavorite');
@@ -45,7 +45,7 @@ export default function MenuItem(props) {
     const changeTextForConsumed = () => {
       const menu_item_user ={
           menu_item_id:props.menu_item_id,
-          user_id:2
+          user_id:1
       }
 
       if(consumedButtonText === 'mark as consumed'){

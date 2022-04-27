@@ -1,6 +1,6 @@
-//import { UnorderedList} from '@chakra-ui/react';
+import { UnorderedList} from '@chakra-ui/react';
 import { useState,useEffect } from "react";
-//import MenuItem from "./components/MenuItem"
+import MenuItem from "./components/MenuItem"
 //import axios from 'axios';
 
 
@@ -43,23 +43,34 @@ const MenuItems = () => {
         })
     }
 
+    function handleRecItems () {
+        fetch('http://localhost:8080/api/getRecommendedMenuItems/1', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res =>  res.json()).then(body =>  {
+            console.log(body); 
+            setMenuList(body);
+        })
+    }
+
     if(menu_list){
 
-        // return (
+        return (
 
 
-        //     <div className="menuitems">
-        //     <div>
-        //     <label> Search: <input type="text" onChange={(event)=>{
-        //                 setSearchBar(event.target.value)}} /> </label>
-        //     <button onClick= {handleRestaurantSearch}>Search By Restaurant</button>
-        //     <button onClick= {handleItemSearch}>Search By Item</button>
-        //     <UnorderedList spacing={5}>
-        //          {menu_list.map((item, i) =>  <li key={i}><MenuItem name={item.name} calories= {item.calories} menu_item_id={item.menu_item_id} rname={item.rname} /></li>)}
-        //     </UnorderedList>
-        //     </div>
-        // </div>
-        // );
+            <div className="menuitems">
+            <div>
+            <label> Search: <input type="text" onChange={(event)=>{
+                        setSearchBar(event.target.value)}} /> </label>
+            <button onClick= {handleRestaurantSearch}>Search By Restaurant</button>
+            <button onClick= {handleItemSearch}>Search By Item</button>
+            <button onClick= {handleRecItems}>get rec items</button>
+            <UnorderedList spacing={5}>
+                 {menu_list.map((item, i) =>  <li key={i}><MenuItem name={item.name} calories= {item.calories} menu_item_id={item.menu_item_id} rname={item.rname} /></li>)}
+            </UnorderedList>
+            </div>
+        </div>
+        );
     
     }
 
