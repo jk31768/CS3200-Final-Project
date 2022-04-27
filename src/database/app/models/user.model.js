@@ -41,7 +41,6 @@ User.select = (user_id, result) => {
 }
 
 User.insertUserFavMenuItem = (user_id, meal_id, result) => {
-
   sql.query("INSERT INTO user_fav_menu_item VALUES (?)",[[user_id,meal_id]], (err,res) => {
     if (err) {
       console.log("error: ", err);
@@ -63,7 +62,7 @@ User.getFavoriteMenuItems = (user_id, result) => {
     }
     if (res.length) {
       console.log("found users menu items: ", res[0]);
-      result(null, res[0]);
+      result(null, res);
       return;
     }
     result({ kind: "not_found" }, null);
@@ -75,12 +74,43 @@ User.insertEatenMeal = (user_id, meal_id, result) => {
 
 }
 
-User.getEatenAllEatenMeals = (user_id, result) => {
-
+User.getEatenAllEatenMeals = (user_id, date, result) => {
+  sql.query(`SELECT Menu_item.name, sum(num_servings * calories_per_menu_item) as calories_per_meal from User_Meal
+              JOIN (SELECT menu_item_id, ROUND(SUM(calories_per_serving * num_of_servings), 0) as calories_per_menu_item FROM Menu_Item_Ingredients
+              JOIN Ingredient ON Menu_Item_Ingredients.ingredient_id = Ingredient.ingredient_id
+              GROUP BY menu_item_id) as t ON t.menu_item_id = User_Meal.menu_item_id
+              JOIN Menu_item ON Menu_item.menu_item_id = User_Meal.menu_item_id
+              WHERE user_id =  ${user_id}
+              AND date =  ${date}
+              GROUP BY Menu_item.name;`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("found users menu items: ", res[0]);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
 }
 
 User.getEatenMealsOnDate = (user_id, date, result) => {
-  
+  sql.query(`SELECT * FROM user_meal join menu_item using(menu_item_id) WHERE user_id = ${user_id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log("found users menu items: ", res[0]);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  });
 }
 
 User.getRecommendedMeal = (user_id, result) =>{

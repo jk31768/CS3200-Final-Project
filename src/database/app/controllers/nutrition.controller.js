@@ -73,4 +73,40 @@ exports.insert = (req, res) => {
       } else res.send(data);
     });
   };
-  
+
+
+
+  /////////////////////////////////////////////////////////////////////
+
+  exports.getEatenAllEatenMeals = (req, res) => {
+    User.getEatenAllEatenMeals(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find fav menu items ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    });
+  };
+
+
+  exports.getEatenAllEatenMealsOnDate = (req, res) => {
+    User.getEatenAllEatenMealsOnDate(req.params.id, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `cannot find fav menu items ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    });
+  };
