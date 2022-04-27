@@ -25,13 +25,22 @@ const Home = () => {
     //     })
     //   }, [])
 
-
-
     let handleShowUserMealOnDate = () => {
         fetch('http://localhost:8080/api/getEatenMealsOnDate/'+user_id+'/'+date)
         .then(res => res.json())
         .then((result) => {
         if (Array.isArray(result)){
+            let sum =0;
+            //calculate the calories eaten
+            for(let i=0; i<result.length;i++){
+                sum+=result[i].calories_per_meal
+            }
+
+            if (sum<2000 && sum>=0)
+                setCalories(calories-sum);
+            else
+                setCalories(0);
+
             setFoodEaten(result);
         }
         else{
